@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import User from "../models/User"
-import { hashPassword } from '../utils/auth';
+import { checkPassword, hashPassword } from '../utils/auth';
 import slugify from 'slugify'
 import {validationResult} from 'express-validator'
 
@@ -57,9 +57,12 @@ export const login = async (req: Request, res: Response) => {
   } 
 
   // Comprobar el password
-  
-  
+  const isPasswordCorrect = await checkPassword(password, user.password)
+  if (!isPasswordCorrect) {
+    const error = new Error('Password Incorrecto')
+    return res.status(401).json({error: error.message})
+  }
 
-
+  res.send('Autenticado')
 }
 
