@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { createAccount, login } from './handlers/index';
 import { body } from 'express-validator'
+import { handleInputErrors } from './middleware/validation';
 
 const router = Router();
 
@@ -20,7 +21,7 @@ router.post('/auth/register',
             body('email')
               .isEmail()
               .withMessage("El formato de email es incorrecto"),
-            
+            handleInputErrors as any,
             createAccount as any
           );
 
@@ -31,7 +32,7 @@ router.post('/auth/login',
             body('email')
               .isEmail()
               .withMessage("El formato de email es incorrecto"),
-            
+              handleInputErrors as any, 
               login as any
             )
 
