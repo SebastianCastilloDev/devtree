@@ -1,6 +1,6 @@
 
 export default function LoginView() {
   return (
-    <div>LoginView</div>
+    <div className=" text-3xl">LoginView</div>
   )
 }
