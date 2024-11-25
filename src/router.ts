@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createAccount } from './handlers/index';
+import { createAccount, login } from './handlers/index';
 import { body } from 'express-validator'
 
 const router = Router();
@@ -23,5 +23,16 @@ router.post('/auth/register',
             
             createAccount as any
           );
+
+router.post('/auth/login',
+            body('password')
+              .notEmpty()
+              .withMessage("El password es obligatorio"),
+            body('email')
+              .isEmail()
+              .withMessage("El formato de email es incorrecto"),
+            
+              login as any
+            )
 
 export default router;

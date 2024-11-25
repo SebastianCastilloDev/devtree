@@ -32,15 +32,24 @@ export const createAccount = async (req: Request, res: Response)=> {
     return res.status(409).json({error: error.message})
   }
 
-
   const user = new User(req.body)
   user.password = await hashPassword(password)
   user.handle = handle
+  await user.save()
+  console.log("desde crear cuenta")
+  res.status(201).send('Registro Creado Correctamente')
+}
 
+export const login = async (req: Request, res: Response) => {
+
+  // errores
+  let errors = validationResult(req)
+  if(!errors.isEmpty()){
+    return res.status(400).json({errors: errors.array()})
+  }
 
   
-  await user.save()
-  res.status(201).send('Registro Creado Correctamente')
+
 
 }
 
