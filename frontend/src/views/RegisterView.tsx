@@ -4,6 +4,7 @@ import ErrorMessage from "../components/ErrorMessage"
 import type { RegisterForm } from "../types"
 import axios, {isAxiosError} from "axios"
 import { toast } from "sonner"
+import api from "../config/axios"
 
 export default function RegisterView() {
 
@@ -24,7 +25,7 @@ const password = watch('password')
 
   const handleRegister = async (formData: RegisterForm) => {
     try {
-      const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, formData)
+      const {data} = await api.post(`/auth/register`, formData)
       console.log(data)
       toast.success(data)
       
