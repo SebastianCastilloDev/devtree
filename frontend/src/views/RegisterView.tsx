@@ -1,16 +1,25 @@
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
+import ErrorMessage from "../components/ErrorMessage"
 
 export default function RegisterView() {
 
-  const {register, watch, handleSubmit, formState: { errors } } = useForm()
+  const initialValues = {
+    name: "",
+    email: "",
+    handle: "",
+    password: "",
+    password_confirmation: "",
+  }
+
+  const { register, watch, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
 
   console.log(errors)
-  
+
   const handleRegister = () => {
     console.log('desde handleRegister')
   }
-  
+
   return (
     <>
       <h1 className="text-4xl text-white font-bold">Crear Cuenta</h1>
@@ -30,6 +39,8 @@ export default function RegisterView() {
               required: "El nombre es obligatorio"
             })}
           />
+          {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
+
         </div>
         <div className="grid grid-cols-1 space-y-3">
           <label htmlFor="email" className="text-2xl text-slate-500">E-mail</label>
@@ -39,9 +50,15 @@ export default function RegisterView() {
             placeholder="Email de Registro"
             className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
             {...register('email', {
-              required: "El email es obligatorio"
+              required: "El email es obligatorio",
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "E-mail no válido"
+              }
             })}
           />
+          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+
         </div>
         <div className="grid grid-cols-1 space-y-3">
           <label htmlFor="handle" className="text-2xl text-slate-500">Handle</label>
@@ -54,6 +71,8 @@ export default function RegisterView() {
               required: "El handle es obligatorio"
             })}
           />
+          {errors.handle && <ErrorMessage>{errors.handle.message}</ErrorMessage>}
+
         </div>
         <div className="grid grid-cols-1 space-y-3">
           <label htmlFor="password" className="text-2xl text-slate-500">Password</label>
@@ -66,6 +85,8 @@ export default function RegisterView() {
               required: "El password es obligatorio"
             })}
           />
+          {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
+
         </div>
 
         <div className="grid grid-cols-1 space-y-3">
@@ -79,6 +100,8 @@ export default function RegisterView() {
               required: "El password de confirmación es obligatorio"
             })}
           />
+          {errors.password_confirmation && <ErrorMessage>{errors.password_confirmation.message}</ErrorMessage>}
+
         </div>
 
         <input
