@@ -22,8 +22,8 @@ const password = watch('password')
 
   const handleRegister = async (formData: RegisterForm) => {
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', formData)
-      console.log(response)
+      const {data} = await axios.post('http://localhost:3000/auth/register', formData)
+      console.log(data)
     } catch (error) {
       console.log(error)
     }
