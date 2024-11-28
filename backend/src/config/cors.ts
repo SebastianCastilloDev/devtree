@@ -3,8 +3,14 @@ import { CorsOptions } from "cors";
 
 export const corsConfig: CorsOptions = {
   origin: function (origin, callback) {
-    console.log(origin)
-    if (origin === process.env.FRONTEND_URL) {
+    const whiteList = [process.env.FRONTEND_URL]
+
+    //capturando un flag del npm script
+    if (process.argv[2] === '--api') {
+      whiteList.push(undefined)
+    }
+    
+    if (whiteList.includes(origin) ) {
       console.log("Permitir");
       callback(null, true)
     } else {
