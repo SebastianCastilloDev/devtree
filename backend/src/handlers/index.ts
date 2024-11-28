@@ -66,3 +66,16 @@ export const login = async (req: Request, res: Response) => {
   res.send(token)
 }
 
+export const getUser = async (req: Request, res: Response) => {
+  console.log('desde get user')
+  const bearer = req.headers.authorization
+  console.log(bearer)
+
+  
+  if (!bearer) {
+    const error = new Error('No autorizado')
+    return res.status(401).json({error: error.message})
+  }
+  res.status(200).json({message: 'Usuario autenticado'})
+
+}
