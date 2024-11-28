@@ -6,6 +6,7 @@ import slugify from 'slugify'
 import {validationResult} from 'express-validator'
 import { generateJWT } from "../utils/jwt";
 
+
 export const createAccount = async (req: Request, res: Response)=> {
 
   
@@ -68,41 +69,6 @@ export const login = async (req: Request, res: Response) => {
 }
 
 export const getUser = async (req: Request, res: Response) => {
-  console.log('desde get user')
-  const bearer = req.headers.authorization
-  console.log({bearer})
-
-  
-  if (!bearer) {
-    const error = new Error('No autorizado')
-    return res.status(401).json({error: error.message})
-  }
-
-  const [ tipoToken, token] = bearer.split(' ')
-
-  if(!token) {
-    const error = new Error('No autenticado')
-    return res.status(401).json({error: error.message})
-  }
-  
-  try {
-    const result = jwt.verify(token, process.env.JWT_SECRET)
-    
-    if (typeof result === 'object' && result.id) {
-      const user = await User.findById(result.id).select('name handle email') // se trae los campos name, handle, email
-      if(!user) {
-        const error = new Error('El usuario no existe')
-        return res.status(404).json({error: error.message})
-
-      }
-      res.json(user)
-    }
-    
-  } catch (error) {
-    res.status(500).json({error: 'Token no válido'})
-  }
-  
-  // console.log({tipoToken, token})
-  res.status(200).json({message: 'Usuario autenticado'})
-
+  res.json(req.user)
+  console.log('Desde Get User')
 }
