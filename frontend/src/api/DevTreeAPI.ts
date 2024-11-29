@@ -13,10 +13,11 @@ export async function getUser() {
         Authorization: `Bearer ${token}`
       }
     })
+    console.log({data})
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      toast.error(error.response.data.error)
+      throw new Error(error.response.data.error)
     }
   }
 }
